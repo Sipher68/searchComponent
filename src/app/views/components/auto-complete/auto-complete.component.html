@@ -1,0 +1,51 @@
+<div class="container">
+  <form>
+    <mat-form-field class="example-chip-list">
+      <mat-label>Search for a place</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Places">
+        <mat-chip-row
+          *ngFor="let place of selectedPlace"
+          (removed)="remove(place)"
+        >
+          {{ place }}
+          <button matChipRemove [attr.aria-label]="'remove ' + place">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+
+      <input
+        #trigger="matAutocompleteTrigger"
+        placeholder="Enter a place"
+        [formControl]="placeCtrl"
+        [matChipInputFor]="chipGrid"
+        [matAutocomplete]="auto"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      />
+
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selected($event)"
+      >
+        <!-- <ng-container *ngIf="cachedValues.length > 0">
+          <mat-option *ngFor="let place of cachedValues" [value]="place">
+            {{ place.name }}
+          </mat-option>
+        <ng-container *ngIf="!(cachedValues.length > 0)">
+          <mat-option
+            *ngFor="let place of filteredPlaces | async"
+            [value]="place"
+          >
+            {{ place.name }}
+          </mat-option>
+        </ng-container> -->
+        <mat-option
+          *ngFor="let place of filteredPlaces | async"
+          [value]="place"
+        >
+          {{ place.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>
